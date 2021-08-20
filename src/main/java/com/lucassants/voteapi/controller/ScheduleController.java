@@ -53,7 +53,7 @@ public class ScheduleController {
 
     @JsonView(ScheduleView.class)
     @PostMapping("/{id}/votes")
-    public ResponseEntity<Vote> CreateVote(@PathVariable Long id, @RequestBody VoteDTO voteDTO){
+    public ResponseEntity<Object> CreateVote(@PathVariable Long id, @RequestBody VoteDTO voteDTO){
 
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         Optional<Associate> associate = associateRepository.findById(voteDTO.getAssociate());
@@ -65,13 +65,18 @@ public class ScheduleController {
             return ResponseEntity.badRequest().build();
         }
 
-        Vote vote = new Vote();
-        vote.setPositive(voteDTO.getPositive());
+        try {
+            Vote vote = new Vote();
+            vote.setPositive(voteDTO.getPositive());
 
-        vote.setSchedule(schedule.get());
-        vote.setAssociate(associate.get());
+            vote.setSchedule(schedule.get());
+            vote.setAssociate(associate.get());
 
-        return ResponseEntity.ok().body(voteRepository.save(vote));
+            return ResponseEntity.ok().body(voteRepository.save(vote));
+        }
+        catch(Exception error){
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @JsonView(ScheduleView.class)

@@ -6,7 +6,7 @@ import com.lucassants.voteapi.views.ScheduleView;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "vote", indexes = {@Index(name="ASSOCIATE_SCHEDULE",columnList = "schedule_id,associate_id")})
+@Table(name = "vote", indexes = {@Index(name="ASSOCIATE_SCHEDULE",columnList = "schedule_id,associate_id", unique = true)})
 public class Vote {
     @JsonView(ScheduleView.class)
     @Id
