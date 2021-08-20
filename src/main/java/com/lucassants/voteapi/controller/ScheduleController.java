@@ -1,6 +1,7 @@
 package com.lucassants.voteapi.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.lucassants.voteapi.DTO.ErrorDTO;
 import com.lucassants.voteapi.DTO.VoteDTO;
 import com.lucassants.voteapi.model.Associate;
 import com.lucassants.voteapi.model.Schedule;
@@ -57,12 +58,13 @@ public class ScheduleController {
 
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         Optional<Associate> associate = associateRepository.findById(voteDTO.getAssociate());
+
         if(associate.isEmpty() || schedule.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body(new ErrorDTO("NotFound", "Schedule or Associate not found"));
         }
 
         if(!schedule.get().getActive()){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(new ErrorDTO("NotActiveSchedule", "Schedule is not active"));
         }
 
         try {
@@ -75,7 +77,7 @@ public class ScheduleController {
             return ResponseEntity.ok().body(voteRepository.save(vote));
         }
         catch(Exception error){
-            return ResponseEntity.badRequest().body(error);
+            return ResponseEntity.badRequest().body(new ErrorDTO("GenericError", error.getMessage()));
         }
     }
 
