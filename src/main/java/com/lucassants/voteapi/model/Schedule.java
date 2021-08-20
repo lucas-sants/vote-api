@@ -1,20 +1,32 @@
 package com.lucassants.voteapi.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.lucassants.voteapi.views.ScheduleView;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
 public class Schedule {
+    @JsonView(ScheduleView.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonView(ScheduleView.class)
     @Column
     private String name;
+
+    @JsonView(ScheduleView.class)
     @Column
     private Date date;
+
+    @JsonView(ScheduleView.class)
     @Column
     private Boolean active = true;
+
+    @JsonView(ScheduleView.class)
     @OneToMany(mappedBy = "schedule")
     Set<Vote> votes;
 

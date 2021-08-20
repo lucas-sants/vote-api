@@ -1,13 +1,19 @@
 package com.lucassants.voteapi.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.lucassants.voteapi.views.ScheduleView;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "vote", indexes = {@Index(name="ASSOCIATE_SCHEDULE",columnList = "schedule_id,associate_id")})
 public class Vote {
+    @JsonView(ScheduleView.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonView(ScheduleView.class)
     @ManyToOne
     @JoinColumn(name = "associate_id")
     Associate associate;
@@ -16,6 +22,7 @@ public class Vote {
     @JoinColumn(name = "schedule_id")
     Schedule schedule;
 
+    @JsonView(ScheduleView.class)
     @Column
     private Boolean positive;
 
