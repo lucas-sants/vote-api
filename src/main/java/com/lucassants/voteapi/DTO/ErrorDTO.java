@@ -1,7 +1,11 @@
 package com.lucassants.voteapi.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ErrorDTO {
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("description")
     private String description;
 
     public ErrorDTO(String name, String description) {
