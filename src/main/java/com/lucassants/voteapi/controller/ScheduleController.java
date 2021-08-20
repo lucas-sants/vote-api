@@ -69,8 +69,8 @@ public class ScheduleController {
         return ResponseEntity.ok().body(voteRepository.save(vote));
     }
 
-    @GetMapping
-    public Optional<Schedule> GetById(Long id){
+    @GetMapping("/{id}")
+    public Optional<Schedule> GetById(@PathVariable Long id){
         return scheduleRepository.findById(id);
     }
 }

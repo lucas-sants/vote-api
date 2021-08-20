@@ -22,8 +22,8 @@ public class AssociateController {
         return associateRepository.save(associate);
     }
 
-    @GetMapping
-    public Optional<Associate> GetById(Long id){
+    @GetMapping("/{id}")
+    public Optional<Associate> GetById(@PathVariable Long id){
         return associateRepository.findById(id);
     }
 }
